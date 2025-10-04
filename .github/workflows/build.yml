@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Linux
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04-arm]
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: laytan/setup-odin@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - uses: actions/checkout@v5
+
+      - name: Build updater
+        run: |
+          pushd miniz/sec
+          make
+          popd
+          pushd tinyfiledialogs
+          ./build.sh
+          popd
+          odin build updater.odin -file -o:speed
