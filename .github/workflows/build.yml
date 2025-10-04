@@ -25,7 +25,6 @@ jobs:
 
       - name: Set variables
         run: |
-          echo "RELEASE_NAME=Released on V$(date +%Y.%m.%d)" >> $GITHUB_ENV
           echo "TAG_NAME=V$(date +%Y.%m.%d)" >> $GITHUB_ENV
 
       - name: Build updater
@@ -45,3 +44,4 @@ jobs:
           tag: ${{ env.TAG_NAME }}
           file: updater
           asset_name: ${{ matrix.asset_name }}
+          overwrite: true
