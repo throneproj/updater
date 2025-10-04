@@ -41,7 +41,7 @@ jobs:
       - name: Release
         uses: svenstaro/upload-release-action@master
         with:
-          repo_token: ${{ secrets.GITHUBTOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.TAG_NAME }}
           file: updater
           asset_name: ${{ matrix.asset_name }}
