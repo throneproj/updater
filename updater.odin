@@ -32,10 +32,9 @@ Updater :: proc() {
         os.exit(1)
     }
 
-    // // extract update package
+    // extract update package
     if strings.has_suffix(update_package_path, ".zip") {
         pre_cleanup()
-        
         if !unpack(update_package_path, "Throne_update") {
             tfd.messageBox("Throne Updater", "Failed to extract zip", "ok", "error", 0)
             os.exit(1)
