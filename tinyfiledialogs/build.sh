@@ -14,6 +14,7 @@ case $(uname) in
 	rm tinyfiledialogs.o
 	;;
 *)
+	mkdir linux
 	gcc -c tinyfiledialogs.c -o linux/tinyfiledialogs.o
 	ar rcs linux/tinyfiledialogs.a linux/tinyfiledialogs.o
 	rm linux/tinyfiledialogs.o
