@@ -5,10 +5,14 @@ on:
 
 jobs:
   build:
-    name: Linux
+    name: Publish for ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04-arm]
+        include:
+          - os: ubuntu-22.04
+            asset_name: updater-linux-amd64
+          - os: ubuntu-24.04-arm
+            asset_name: updater-linux-arm64
     runs-on: ${{matrix.os}}
     steps:
       - uses: laytan/setup-odin@v2
@@ -16,6 +20,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       
       - uses: actions/checkout@v5
+
+      - name: Set variables
+        run: |
+          echo "RELEASE_NAME=Released on V$(date +%Y.%m.%d)" >> $GITHUB_ENV
+          echo "TAG_NAME=V$(date +%Y.%m.%d)" >> $GITHUB_ENV
 
       - name: Build updater
         run: |
@@ -26,3 +35,11 @@ jobs:
           ./build.sh
           popd
           odin build updater.odin -file -o:speed
+
+      - name: Release
+        uses: svenstaro/upload-release-action@master
+        with:
+          repo_token: ${{ secrets.GITHUBTOKEN }}
+          tag: ${{ env.TAG_NAME }}
+          file: updater
+          asset_name: ${{ matrix.asset_name }}
