@@ -6,6 +6,8 @@ on:
 jobs:
   build:
     name: Publish for ${{ matrix.os }}
+    permissions:
+      contents: write
     strategy:
       matrix:
         include:
