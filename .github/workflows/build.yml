@@ -19,7 +19,7 @@ jobs:
 
       - name: Build updater
         run: |
-          pushd miniz/sec
+          pushd miniz/src
           make
           popd
           pushd tinyfiledialogs
